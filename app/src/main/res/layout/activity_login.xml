@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/coverdemo"
+    tools:context="com.example.dell.repreciardemo.LoginActivity">
+
+    <EditText
+        android:layout_marginTop="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/loginEmail"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:background="@android:color/transparent"
+        android:padding="12dp"
+        android:drawablePadding="12dp"
+        android:textColorHint="#fff"
+        android:textStyle="bold"
+        android:drawableLeft="@drawable/ic_person_white_24dp"
+        android:hint="Enter email"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f9d7db"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/loginPassword"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:background="@android:color/transparent"
+        android:padding="12dp"
+        android:drawablePadding="12dp"
+        android:textColorHint="#fff"
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:drawableLeft="@drawable/ic_lock_white_24dp"
+        android:hint="Enter Password"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f9d7db"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/loginButton"
+        android:text="Log In"
+        android:background="#fff"
+        android:textAllCaps="false"
+        android:textStyle="normal"
+        android:clickable="true"
+        android:textSize="18sp"
+        android:layout_marginTop="32dp"
+        android:onClick="onloginButtonClicked"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerButton"
+        android:text="Sign Up"
+        android:background="#fff"
+        android:textAllCaps="false"
+        android:textStyle="normal"
+        android:clickable="true"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:onClick="onregisterButtonClicked"/>
+</LinearLayout>
