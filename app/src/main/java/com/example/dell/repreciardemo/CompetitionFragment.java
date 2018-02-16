@@ -1,9 +1,15 @@
 package com.example.dell.repreciardemo;
 
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,10 +25,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 
-public class CompetitionActivity extends AppCompatActivity {
+import static android.app.Activity.RESULT_OK;
+
+
+public class CompetitionFragment extends Fragment {
 
     TextView score;
     private int valueChange;
+    CardView scanButton;
 
     public static final int REQUEST_CODE = 100;
     public static final int PERMISSION_REQUEST = 200;
@@ -35,19 +45,31 @@ public class CompetitionActivity extends AppCompatActivity {
     String[] QRCodes=new String[]{};
     private String val;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_competition);
-
-        score=findViewById(R.id.score);
-        firebaseDatabase= FirebaseDatabase.getInstance();
-        databaseReference=firebaseDatabase.getReference().child("Users");
-        firebaseAuth=FirebaseAuth.getInstance();
+    public CompetitionFragment() {
+        // Required empty public constructor
     }
 
+
     @Override
-    protected void onStart() {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v=inflater.inflate(R.layout.fragment_competition, container, false);
+        score=v.findViewById(R.id.score);
+        scanButton=v.findViewById(R.id.scanButton);
+        firebaseDatabase= FirebaseDatabase.getInstance();
+        databaseReference=firebaseDatabase.getReference().child("Users");
+        firebaseAuth= FirebaseAuth.getInstance();
+        scanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onScanBtnClick(view);
+            }
+        });
+        return v;
+    }
+    @Override
+    public void onStart() {
         super.onStart();
         String user_id=firebaseAuth.getCurrentUser().getUid();
         final DatabaseReference userdb=databaseReference.child(user_id);
@@ -79,13 +101,13 @@ public class CompetitionActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             if(data != null){
                 final Barcode barcode = data.getParcelableExtra("barcode");
                 if(Arrays.asList(QRCodes).contains(barcode.displayValue)){
-                    Toast.makeText(CompetitionActivity.this,"You have already scanned this QR Code",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"You have already scanned this QR Code",Toast.LENGTH_SHORT).show();
                 }
                 else{
 
@@ -109,7 +131,7 @@ public class CompetitionActivity extends AppCompatActivity {
                                 if(valueChange<10)
                                     mutableData.setValue((Long) mutableData.getValue() + 1);
                                 else
-                                    Toast.makeText(CompetitionActivity.this,"QR Code has Expired",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(),"QR Code has Expired",Toast.LENGTH_SHORT).show();
                             }
                             return Transaction.success(mutableData);
                         }
@@ -146,7 +168,7 @@ public class CompetitionActivity extends AppCompatActivity {
     }
 
     public void onScanBtnClick(View view) {
-        Intent intent = new Intent(CompetitionActivity.this, ScanActivity.class);
+        Intent intent = new Intent(getContext(), ScanActivity.class);
         startActivityForResult(intent, REQUEST_CODE);
     }
 }
